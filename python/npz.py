@@ -2,7 +2,7 @@ import numpy as np
 
 
 # npz 파일 로드
-data = np.load('C:/Users/shinw/OneDrive/바탕 화면/종합 설계 프로젝트/python/toy_training_data.npz')
+data = np.load('toy_training_data.npz')
 # npz 파일 내 변수 확인
 print(data.files)
 
