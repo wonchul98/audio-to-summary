@@ -5,7 +5,7 @@ from pydub.silence import split_on_silence
 sound_file = AudioSegment.from_wav("hamburger.wav")
 
 # 음성 부분만 분리합니다.
-chunks = split_on_silence(sound_file, min_silence_len=500, silence_thresh=-40)
+chunks = split_on_silence(sound_file, min_silence_len=700, silence_thresh=-50)
 
 # 10초를 기준으로 자르기 위한 변수입니다.
 ten_seconds = 10 * 1000
@@ -28,4 +28,4 @@ for i, chunk in enumerate(chunks):
             start = j * ten_seconds
             end = (j + 1) * ten_seconds
             sub_chunk = chunk[start:end]
-            sub_chunk.export(f"sep_ham/sep_ham_{i}_{j}.wav", format="wav")
+            sub_chunk.export(f"sep_ham_700ms_50/sep_ham_{i}_{j}.wav", format="wav")

@@ -1,0 +1,41 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import wave
+
+# Load the wave file
+with wave.open('hamburger.wav', 'rb') as wave_file:
+    # Get the sampling rate and number of frames
+    framerate = wave_file.getframerate()
+    num_frames = wave_file.getnframes()
+    
+    # Read all frames as bytes
+    frames = wave_file.readframes(num_frames)
+    
+    # Convert bytes to integers
+    wave_data = np.frombuffer(frames, dtype=np.int16)
+    
+    # Calculate the duration of the audio
+    duration = num_frames / framerate
+    
+    # Define the interval size (in seconds)
+    interval_size = 1.0
+    
+    # Calculate the number of intervals
+    num_intervals = int(np.ceil(duration / interval_size))
+    
+    # Calculate the intensity of the audio at each interval
+    intervals = np.zeros(num_intervals)
+    for i in range(num_intervals):
+        start = int(i * interval_size * framerate)
+        end = int((i + 1) * interval_size * framerate)
+        interval_data = wave_data[start:end]
+        intervals[i] = np.abs(interval_data).mean()
+    
+    # Create a time array for the x-axis
+    times = np.arange(num_intervals) * interval_size
+    
+    # Plot the intensity vs. time
+    plt.plot(times, intervals)
+    plt.xlabel('Time (s)')
+    plt.ylabel('Intensity')
+    plt.show()

@@ -1,3 +1,3 @@
 from pydub import AudioSegment
 
-AudioSegment.ffmpeg = "C:\\Users\\Administrator\\Desktop\\졸업 프로젝트\\audio-to-summary\\python\\ffmpeg-master-latest-win64-gpl-shared\\bin\\ffmpeg.exe"
+AudioSegment.ffmpeg = "C:\\Users\\shinw\\OneDrive\\바탕 화면\\ffmpeg-master-latest-win64-gpl-shared\\ffmpeg-master-latest-win64-gpl-shared\\bin\\ffmpeg.exe"
