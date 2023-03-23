@@ -28,4 +28,4 @@ for i, chunk in enumerate(chunks):
             start = j * ten_seconds
             end = (j + 1) * ten_seconds
             sub_chunk = chunk[start:end]
-            sub_chunk.export(f"sep_ham_700ms_50/sep_ham_{i}_{j}.wav", format="wav")
+            sub_chunk.export(f"cut_wav/sep_ham_{i}_{j}.wav", format="wav")
