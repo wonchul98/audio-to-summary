@@ -2,6 +2,9 @@ import openai
 from rouge import Rouge
 from nltk.translate import meteor_score
 import nltk
+from blanc import BlancHelp, BlancTune
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
 
 def evaluate_summary(summary, reference):
     # Initialize Rouge and Meteor
@@ -22,7 +25,7 @@ def evaluate_summary(summary, reference):
 
     return rouge_scores, meteor_scr
 
-openai.api_key = '...'
+openai.api_key = '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'
 response = openai.ChatCompletion.create(
   model="gpt-3.5-turbo",
   messages=[
@@ -64,11 +67,10 @@ print(answer)
 
 print("Used tokens:", response['usage']['total_tokens'])
 
-reference_data = """
-화자별 요약)
-    화자1: 영화 명량과 이순신 장군에 대해서 소개하면 이순신 장군의 생애에 대해서 소개한다. 
-    화자2: 이순신 장군에 대해서 잘 알려진 명언을 언급한다. 
-"""
 
-r_scr, m_scr = evaluate_summary(answer, reference_data)
-print(r_scr, m_scr)
+document = "화자1]2014년 영화 명량의 흥행열기가 대단합니다.\n영화 명량을 보신 많은 분들은 꼭 10년 전에 했던 KBS 드라마 불멸의 이순신을 떠올리시는 분들이 많을 것 같습니다.\n420여 년 전 자신의 모든 것을 바쳐 나라와 백성 그리고 우리 역사를 구했던 인물이순신.\n화자2]살고자 하면 죽을 것이오, 죽고자 하면 살 것이니.\n신에게는 아직 12척의 배가 남아 있습니다.\n화자1]이순신 장군은 생애 그 자체로도 정말 감동적인 삶을 사셨습니다.\n고뇌 그리고 결단 그리고 리더십.\n이런 이순신 장군의 모습들은 오늘날 우리들에게 큰 울림을 던지면서 여전히 우리 시대에 이순신 장군을 기억하게 합니다.\n드라마 불멸의 이순신을 10년 만에 다시 만나는 이유도 여기에 있습니다.\n이순신 장군은 1545년 서울 건천동, 지금의 을지로와 충무로 사이에서 태어나셨고 주로 어린 시절은 외가가 있는 아산에서 그 청소년기를 거치게 됩니다."
+summary = answer
+blanc_help = BlancHelp()
+blanc_tune = BlancTune(finetune_mask_evenly=False, show_progress_bar=False)
+print(blanc_help.eval_once(document, summary))
+print(blanc_tune.eval_once(document, summary))
