@@ -10,10 +10,10 @@ from collections import defaultdict
 import os
 import glob
 warnings.filterwarnings("ignore", category=FutureWarning)
-openai.api_key = '<key>'
-filepaths = glob.glob('D:/023.방송 콘텐츠 대본 요약 데이터/01.데이터/1.Training/라벨링데이터/TL1/history/20per/*.json')
+openai.api_key = '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'
+filepaths = glob.glob('D:/023.방송 콘텐츠 대본 요약 데이터/01.데이터/1.Training/라벨링데이터/TL1/fs_drama/20per/*.json')
 
-filepaths = filepaths[82:100]  #
+filepaths = filepaths[:100]  #
 all_blanc_scores = []
 i = 1
 for filepath in filepaths:
