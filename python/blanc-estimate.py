@@ -11,13 +11,13 @@ import os
 import glob
 warnings.filterwarnings("ignore", category=FutureWarning)
 openai.api_key = '<key>'
-filepaths = glob.glob('D:/023.방송 콘텐츠 대본 요약 데이터/01.데이터/1.Training/라벨링데이터/TL1/history/20per/*.json')
+filepaths = glob.glob('D:/023.방송 콘텐츠 대본 요약 데이터/01.데이터/1.Training/라벨링데이터/TL1/culture/20per/*.json')
 
-filepaths = filepaths[82:100]  #
+filepaths = filepaths[91:100]  #
 all_blanc_scores = []
 i = 1
 for filepath in filepaths:
-    
+    print(filepath)
     # json 파일 열기
     with open(filepath, 'r', encoding='utf-8') as f:
         data = json.load(f)
@@ -31,18 +31,18 @@ for filepath in filepaths:
                 1. A summary is generated for each speaker.
                 2. Each speaker's summary should be based on all of their utterances, producing only a single summary for each speaker.
                 3. Ignore any sentences that are not associated with any context.
-                4. Generate the output in the following format: 'Speaker: Summary'
-                5. 
-                Please do not produce any other results outside of this format.
+                4. Since post-processing is required with the '\{speaker\}:\{content summary\}' format, it must be followed. 
+                5. Do not put special symbols such as '-' in front of 'speaker:'.
+                6. '\{speaker\} is \{summary of speech\}It is not a form like , but it must be in the form of '\{speaker\}:\{speech summary\}'
                 """},
                 #data
                 {"role": "user", "content": """
                 원본 대본 데이터)
-                화자1]편의점 가자\n화자2]그래\n화자1]먹고 싶은거 있어?\n화자2]라면 먹고싶어\n화자1]내가 사줄게]\n화자2]아니야 괜찮아\n
+                인영]편의점 가자\n태준]그래\n인영]먹고 싶은거 있어?\n태준]라면 먹고싶어\n인영]내가 사줄게]\n태준]아니야 괜찮아\n
                 """},
                 {"role": "assistant", "content": """
-            화자1: 화자2에게 편의점에 가자고 제안하며, 라면을 사주겠다고 한다. 
-            화자2: 화자1과 편의점에 가기로 하며 화자1이 라면을 사준다는 제안을 거절한다.
+            인영: 화자2에게 편의점에 가자고 제안하며, 라면을 사주겠다고 한다. 
+            태준: 화자1과 편의점에 가기로 하며 화자1이 라면을 사준다는 제안을 거절한다.
                 """},
                 
                 #prompt
@@ -83,10 +83,10 @@ for filepath in filepaths:
                     speakers[current_speaker] += [speech]
                 else:
                     speakers[current_speaker] = [speech]
-        #print(f"speakers before preprocessing: ", speakers)
+        #print(f"speakers before preprocessing: \n", speakers)
         speakers = {speaker: [speech + '.' if not speech.endswith('.') else speech for speech in speeches if speech] for speaker, speeches in speakers.items()}
         speakers = {speaker: ' '.join(speeches).strip() for speaker, speeches in speakers.items()}
-        #print(f"speakers: ", speakers)
+        #print(f"speakers: \n", speakers)
         
         sum_speakers = {}
         sum_current_speaker = None
